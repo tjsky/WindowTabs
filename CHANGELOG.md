@@ -41,8 +41,11 @@ The fork's first release: five languages, and the resource work from upstream's
   Reliability down with it; it now says so and skips the rest, as the peek bitmap checks already
   do without a live preview.
 
-### Links
+### Links and docs
 
+- The README is in English, Simplified and Traditional Chinese and Japanese, switched from the
+  badges under the title. Traditional Chinese uses Taiwan's terms rather than a character
+  conversion of the Simplified text.
 - The version under the settings footer, and the diagnostics page's **Report an issue**,
   **Project page** and **Check Releases** links, point at this fork rather than upstream.
 

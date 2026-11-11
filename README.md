@@ -2,6 +2,14 @@
 
 # WindowTabs
 
+<p align="center">
+  <b>Language</b><br />
+  <a href="README.md"><img alt="English" src="https://img.shields.io/badge/English-Current-brightgreen?style=flat-square"></a>
+  <a href="README.zh-CN.md"><img alt="简体中文" src="https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Switch-lightgrey?style=flat-square"></a>
+  <a href="README.zh-TW.md"><img alt="繁體中文" src="https://img.shields.io/badge/%E7%B9%81%E9%AB%94%E4%B8%AD%E6%96%87-Switch-lightgrey?style=flat-square"></a>
+  <a href="README.ja.md"><img alt="日本語" src="https://img.shields.io/badge/%E6%97%A5%E6%9C%AC%E8%AA%9E-Switch-lightgrey?style=flat-square"></a>
+</p>
+
 Browser-style tabs for your desktop windows. Group windows from any apps and switch
 between them with a click or a shortcut.
 

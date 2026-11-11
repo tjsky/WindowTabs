@@ -16,16 +16,15 @@
 [![Build](https://github.com/tjsky/WindowTabs/actions/workflows/build.yml/badge.svg)](https://github.com/tjsky/WindowTabs/actions/workflows/build.yml)
 
 > [!NOTE]
-> 这是 [tjsky 的 fork](https://github.com/tjsky/WindowTabs)，源自
-> [leafOfTree/WindowTabs](https://github.com/leafOfTree/WindowTabs)，后者延续了
-> [Maurice Flanagan 的原版](https://github.com/mauricef/WindowTabs)。下面记录的每一项都是上游及其作者的工作；
-> 本 fork 增加了多语言支持，并带上了 [pull request #129](https://github.com/leafOfTree/WindowTabs/pull/129)。
-> 问题反馈与 PR 请提到这里，而不是上游。
+> 本仓库是 [leafOfTree/WindowTabs](https://github.com/leafOfTree/WindowTabs) 的 fork，后者延续了
+> [Maurice Flanagan 的原版](https://github.com/mauricef/WindowTabs)。本 fork 增加了五种语言的支持，
+> 并合入了 [pull request #129](https://github.com/leafOfTree/WindowTabs/pull/129) 的资源占用改进。
+> 问题反馈与 PR 请提交到本仓库，而非上游。
 
 > [!IMPORTANT]
-> **v2026.11.11**：支持 English、简体中文、繁體中文、日本語、العربية，可在设置窗口左下角切换；
-> 并按 pull request #129 降低了空闲时的内存与 CPU 占用 —— 标签截图改为存 PNG、只在需要预览时解码，
-> 控制台窗口改从 conhost 挂钩，支持页新增资源占用曲线。[改动详情 →](CHANGELOG.md)
+> **v2026.11.11**：新增五种语言 —— English、简体中文、繁體中文、日本語、العربية，可在设置窗口
+> 左下角切换；同时降低了空闲时的内存与 CPU 占用，支持页新增最近一小时与最近一天的资源占用曲线。
+> [改动详情 →](CHANGELOG.md)
 
 <a href="docs/images/light.png"><img src="docs/images/light-rounded.svg" width="600" alt="浅色标签页归组了三个文件资源管理器窗口" /></a>
 
@@ -222,6 +221,4 @@ dotnet build WindowTabs.sln -c Release      # Release：WtProgram\bin\Release\Wi
 经 [redgis](https://github.com/redgis/WindowTabs) 和 [payaneco](https://github.com/payaneco/WindowTabs) 继续，
 再由 [leafOfTree](https://github.com/leafOfTree/WindowTabs) 发展到今天的样子，本 fork 即取自那里。
 
-[MIT 许可](LICENSE)。版权声明与许可正文与上游完全一致，这是许可本身的要求；
-语言文件和 [CHANGELOG.md](CHANGELOG.md) 里列出的改动是本 fork 新增的。
-感谢上面这些维护者多年打下的基础。
+[MIT 许可](LICENSE)，原版权声明一并保留。感谢上面这些维护者多年打下的基础。

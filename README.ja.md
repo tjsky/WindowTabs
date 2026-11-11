@@ -17,18 +17,15 @@
 [![Build](https://github.com/tjsky/WindowTabs/actions/workflows/build.yml/badge.svg)](https://github.com/tjsky/WindowTabs/actions/workflows/build.yml)
 
 > [!NOTE]
-> これは [tjsky のフォーク](https://github.com/tjsky/WindowTabs) で、元は
-> [leafOfTree/WindowTabs](https://github.com/leafOfTree/WindowTabs)、そのさらに元は
-> [Maurice Flanagan のオリジナル](https://github.com/mauricef/WindowTabs) です。以下に書かれていることは
-> すべて上流とその作者の仕事で、このフォークが加えたのは多言語対応と
-> [pull request #129](https://github.com/leafOfTree/WindowTabs/pull/129) の取り込みです。
+> このリポジトリは [leafOfTree/WindowTabs](https://github.com/leafOfTree/WindowTabs) のフォークで、
+> その元は [Maurice Flanagan のオリジナル](https://github.com/mauricef/WindowTabs) です。5 言語への対応と、
+> [pull request #129](https://github.com/leafOfTree/WindowTabs/pull/129) のリソース改善を取り込んでいます。
 > Issue と pull request は上流ではなくこちらへお願いします。
 
 > [!IMPORTANT]
-> **v2026.11.11**：English、简体中文、繁體中文、日本語、العربية に対応し、設定ウィンドウの左下で
-> 切り替えられます。あわせて pull request #129 によるアイドル時のメモリと CPU の削減 —— タブの画像を
-> PNG で保持し、プレビューに必要なときだけデコード、コンソールウィンドウは conhost 経由でフック、
-> サポート画面にリソース使用量のグラフを追加。[変更点 →](CHANGELOG.md)
+> **v2026.11.11**：English、简体中文、繁體中文、日本語、العربية の 5 言語に対応し、設定ウィンドウの
+> 左下で切り替えられます。アイドル時のメモリと CPU の使用量も削減し、サポート画面に直近 1 時間と
+> 1 日分のリソース使用量グラフを追加しました。[変更点 →](CHANGELOG.md)
 
 <a href="docs/images/light.png"><img src="docs/images/light-rounded.svg" width="600" alt="ライトテーマでエクスプローラーのウィンドウ 3 つを 1 つのグループにまとめたタブ" /></a>
 
@@ -247,6 +244,5 @@ GitHub Actions がビルドした**未署名**のもので、Windows が実行�
 [payaneco](https://github.com/payaneco/WindowTabs) が続け、
 [leafOfTree](https://github.com/leafOfTree/WindowTabs) が現在の姿に育てました。このフォークはそこから取ったものです。
 
-[MIT ライセンス](LICENSE)。著作権表示と許諾文は上流のまま変更していません（ライセンスが求めるため）。
-言語ファイルと [CHANGELOG.md](CHANGELOG.md) に挙げた変更が、このフォークの追加分です。
+[MIT ライセンス](LICENSE)。元の著作権表示もそのまま残しています。
 ここまでの土台を築いてきた上記のメンテナーに感謝します。

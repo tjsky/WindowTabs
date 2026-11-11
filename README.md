@@ -17,18 +17,16 @@ between them with a click or a shortcut.
 [![Build](https://github.com/tjsky/WindowTabs/actions/workflows/build.yml/badge.svg)](https://github.com/tjsky/WindowTabs/actions/workflows/build.yml)
 
 > [!NOTE]
-> This is [tjsky's fork](https://github.com/tjsky/WindowTabs) of
-> [leafOfTree/WindowTabs](https://github.com/leafOfTree/WindowTabs), which continues
-> [Maurice Flanagan's original](https://github.com/mauricef/WindowTabs). Everything documented
-> below is upstream's work and its authors'; the fork adds the languages and carries
-> [pull request #129](https://github.com/leafOfTree/WindowTabs/pull/129). Report issues and open
+> This is a fork of [leafOfTree/WindowTabs](https://github.com/leafOfTree/WindowTabs), which
+> continues [Maurice Flanagan's original](https://github.com/mauricef/WindowTabs). It adds
+> five-language support and the resource fixes from
+> [pull request #129](https://github.com/leafOfTree/WindowTabs/pull/129). Report issues and send
 > pull requests here rather than upstream.
 
 > [!IMPORTANT]
-> **v2026.11.11**: English, 简体中文, 繁體中文, 日本語 and العربية, chosen at the bottom left of
-> Settings, and the idle memory and CPU fixes from pull request #129 — tab pictures kept as PNG
-> until a preview needs them, console windows hooked through their conhost, and a chart of what
-> the app uses on Support. [What's changed →](CHANGELOG.md)
+> **v2026.11.11**: five languages — English, 简体中文, 繁體中文, 日本語 and العربية — chosen at
+> the bottom left of Settings, and lower idle memory and CPU use. Support now charts what the
+> app uses over the last hour and the last day. [What's changed →](CHANGELOG.md)
 
 <a href="docs/images/light.png"><img src="docs/images/light-rounded.svg" width="600" alt="Light tabs grouping three File Explorer windows" /></a>
 
@@ -108,7 +106,7 @@ right-drag asks, and **Ctrl + Z** in Explorer undoes it.
   menu.
 - **Taskbar:** optionally combine each group into one taskbar button, which shows every
   app in the group.
-- **Languages:** English, 中文, 日本語, العربية.
+- **Languages:** English, 简体中文, 繁體中文, 日本語, العربية.
 
 <a href="docs/images/settings.png"><img src="docs/images/settings.png" width="600" alt="WindowTabs settings" /></a>
 
@@ -260,7 +258,5 @@ continued by [redgis](https://github.com/redgis/WindowTabs) and
 [payaneco](https://github.com/payaneco/WindowTabs), and brought to where it is now by
 [leafOfTree](https://github.com/leafOfTree/WindowTabs), from which this fork is taken.
 
-[MIT license](LICENSE). The copyright notice and permission text are unchanged from upstream,
-as the license asks; the language files and the changes listed in
-[CHANGELOG.md](CHANGELOG.md) are the fork's additions. Thanks to the maintainers above for the
-years of work this builds on.
+[MIT license](LICENSE), with the original copyright notices kept. Thanks to the maintainers
+above for the years of work this builds on.

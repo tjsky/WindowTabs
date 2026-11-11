@@ -2,50 +2,37 @@
 
 ## v2026.11.11 — 2026-11-11
 
-The fork's first release: five languages, and the resource work from upstream's
+Five languages, lower idle memory and CPU use, and the resource work from upstream's
 [pull request #129](https://github.com/leafOfTree/WindowTabs/pull/129).
 
 ### Languages
 
 - English, 简体中文, 繁體中文, 日本語 and العربية, chosen from the menu at the bottom left of
-  Settings, and followed from Windows' display language by default.
+  Settings, or followed from Windows' display language.
 - **Follow Windows** reads the region as well as the language: `zh-TW`, `zh-HK` and `zh-MO` open
-  in Traditional Chinese and the mainland in Simplified. The two letter language name alone
-  answers `zh` for all of them, so it could never tell them apart.
-- 繁體中文 is translated rather than converted from 简体, which would leave 標籤 for a tab, 佈局
-  for a layout and 懸停 for hover in a page that is otherwise Traditional. Terms follow Windows
-  in Taiwan: tab 分頁, window 視窗, settings 設定, app 應用程式, taskbar 工作列,
-  notification area 通知區域.
+  in Traditional Chinese, the mainland in Simplified.
 - A text left empty shows English, so a language can be added and translated in steps.
   `docs/localization.md` and `tools/add-language.fsx` cover the rest.
 
 ### Less memory and CPU
 
 - **Tab pictures** are kept as PNG and decoded only when a preview needs them, rather than held
-  as a resident 32-bit bitmap: 1406 KB becomes 124 KB for a window's worth of tabs.
-- **Console windows** are hooked through their conhost, found with
-  `NtQueryInformationProcess(ProcessConsoleHostProcess)`, instead of taking the events of the
-  whole desktop. The older route stays as the fallback where that answer is unavailable.
-- **Support** charts what the app uses over the last hour and the last day, so a report of
-  "it grew" can be looked at rather than guessed at.
+  as a resident bitmap: 1406 KB becomes 124 KB for a window's worth of tabs.
+- **Console windows** are hooked through their conhost rather than the whole desktop, with the
+  older route kept as a fallback.
+- **Support** charts what the app uses over the last hour and the last day.
 
 ### Fixes
 
-- Settings search compared each character through a culture aware call; it now asks `IndexOf`.
-  The fifth language had pushed a keystroke past the budget the tests guard, and a keystroke now
-  costs less than it did before the language was added.
-- The suites that assert English captions pin English instead of following the machine's display
-  language, which failed on any Chinese Windows.
-- The console check that came with the pull request opens `conhost` itself and waits for its
-  window. A hosted runner has no desktop to open one on, so the wait timed out and took all of
-  Reliability down with it; it now says so and skips the rest, as the peek bitmap checks already
-  do without a live preview.
+- Settings search is faster; a keystroke now costs less than it did before the fifth language
+  was added.
+- The console check that opens a test window skips a session that has no desktop to open one on,
+  instead of failing the whole suite.
 
 ### Links and docs
 
 - The README is in English, Simplified and Traditional Chinese and Japanese, switched from the
-  badges under the title. Traditional Chinese uses Taiwan's terms rather than a character
-  conversion of the Simplified text.
+  badges under the title.
 - The version under the settings footer, and the diagnostics page's **Report an issue**,
   **Project page** and **Check Releases** links, point at this fork rather than upstream.
 

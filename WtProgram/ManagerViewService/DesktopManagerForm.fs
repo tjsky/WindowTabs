@@ -169,7 +169,7 @@ type DesktopManagerForm(?views:ISettingsView list, ?viewFactories:(SettingsViewT
                               Dock=DockStyle.Fill,TextAlign=ContentAlignment.MiddleLeft,UseMnemonic=false)
         // WinForms leaves a font set on the label at the old scale; it takes the new one's.
         form.Rescaled.Add(fun _ -> brand.Font <- SettingsUi.sectionFont())
-        let releasesUrl = "https://github.com/leafOfTree/WindowTabs/releases"
+        let releasesUrl = AssemblyInfo.repository + "/releases"
         let mutable versionHovered = false
         let version =
             { new Button(Text=sprintf "v%s" AssemblyInfo.informationalVersion,AutoSize=false,

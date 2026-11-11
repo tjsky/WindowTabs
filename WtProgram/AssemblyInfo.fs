@@ -12,6 +12,11 @@ open System.Runtime.InteropServices
 
 do ()
 
+// Where the issue tracker, the releases and the project page live. This build is published
+// from a fork, so the links in the diagnostics page and under the version point there rather
+// than at the upstream repository.
+let repository = "https://github.com/tjsky/WindowTabs"
+
 // Keep diagnostics and settings migration version comparisons non-empty.
 let private fallbackVersion = "2026.10.07"
 

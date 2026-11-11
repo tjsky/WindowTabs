@@ -500,7 +500,7 @@ type DiagnosticsView() =
         view.Resize.Add(fun _ -> place())
         strip.SizeChanged.Add(fun _ -> place())
         strip
-    let repository = "https://github.com/leafOfTree/WindowTabs"
+    let repository = AssemblyInfo.repository
     /// The page, once built, and how to fold its report: the report's card is the page's list.
     let mutable listPage : SettingsListPage option = None
     let mutable foldReport : bool -> unit = ignore

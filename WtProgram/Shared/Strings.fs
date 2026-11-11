@@ -479,6 +479,14 @@ module Strings =
         let diagnostics = { caption=Pages.diagnostics
                             description={ en="Troubleshooting report and where to get help."; zh="故障排查报告与获取帮助的途径。"; zhHant="疑難排解報告與取得協助的途徑。"; ja="トラブルシューティング用のレポートとヘルプの入手先。"; ar="تقرير استكشاف الأخطاء وإصلاحها ومكان الحصول على المساعدة." }
                             keywords={ en="about version log"; zh="关于 版本 日志"; zhHant="關於 版本 記錄檔"; ja="バージョン ログ"; ar="حول الإصدار السجل" } }
+        let resourceHistory =
+            { caption={ en="Resource history"; zh="资源记录"; zhHant="資源記錄"; ja="リソース履歴"; ar="سجل الموارد" }
+              description={ en="Samples what the app uses every ten seconds for the charts on this page. Sampling walks every process on the machine; leave it off unless a report asks for it."
+                            zh="每十秒采样一次资源占用，供本页的曲线图使用。采样需要遍历机器上的所有进程，回报问题时再打开即可。"
+                            zhHant="每十秒取樣一次資源用量，供本頁的圖表使用。取樣需要周遊機器上的所有處理程序，回報問題時再開啟即可。"
+                            ja="このページのグラフのために 10 秒ごとにリソース使用量を記録します。記録にはマシン上の全プロセスの走査が伴うため、レポートの提出時以外はオフのままで構いません。"
+                            ar="يسجل استخدام الموارد كل عشر ثوانٍ للرسوم البيانية في هذه الصفحة. يتطلب التسجيل مسح كل العمليات على الجهاز؛ فعّله فقط عند طلب تقرير." }
+              keywords={ en="resources memory cpu usage performance chart report"; zh="资源 内存 CPU 占用 性能 图表 报告"; zhHant="資源 記憶體 CPU 用量 效能 圖表 報告"; ja="リソース メモリ CPU 使用量 パフォーマンス グラフ レポート"; ar="موارد ذاكرة معالج استخدام أداء رسم تقرير" } }
         let settingsLocation = { caption={ en="Location"; zh="位置"; zhHant="位置"; ja="場所"; ar="الموقع" }
                                  description=none
                                  keywords={ en="folder path portable"; zh="文件夹 路径 便携"; zhHant="資料夾 路徑 可攜"; ja="フォルダー パス ポータブル"; ar="مجلد مسار محمول" } }
@@ -1357,6 +1365,11 @@ module Strings =
         let lastHour = { en="Last hour"; zh="最近 1 小时"; zhHant="最近 1 小時"; ja="過去 1 時間"; ar="آخر ساعة" }
         let lastDay = { en="Last 24 hours"; zh="最近 24 小时"; zhHant="最近 24 小時"; ja="過去 24 時間"; ar="آخر 24 ساعة" }
         let collecting = { en="Collecting…"; zh="正在收集…"; zhHant="正在收集…"; ja="収集中…"; ar="جارٍ الجمع…" }
+        let collectingOff = { en="Resource history is off; turn it on above to record what the app uses."
+                              zh="资源记录已关闭；在上方打开后才会记录资源占用。"
+                              zhHant="資源記錄已關閉；在上方開啟後才會記錄資源用量。"
+                              ja="リソース履歴はオフです。上でオンにするとリソース使用量が記録されます。"
+                              ar="سجل الموارد متوقف؛ فعّله بالأعلى لتسجيل استخدام الموارد." }
         let cpu = { en="CPU"; zh="CPU"; zhHant="CPU"; ja="CPU"; ar="المعالج" }
         let privateMemory = { en="Private memory"; zh="专用内存"; zhHant="專用記憶體"; ja="プライベート メモリ"; ar="الذاكرة الخاصة" }
         let workingSet = { en="Working set"; zh="工作集"; zhHant="工作集"; ja="ワーキング セット"; ar="مجموعة العمل" }

@@ -1682,10 +1682,23 @@ type Program(lifetime:LifetimeScope, ?settings:Settings) as this =
         StartupPlugins.initialize plugins.list (fun () ->
             this.refresh()
             initialDiscoveryComplete <- true
-            // The Support page's resources, from the first groups on.
-            lifetime.Own(ResourceMonitor.start(fun () ->
-                let groups = Services.desktop.groups
-                groups.count,groups.collect(fun group -> group.windows).count)) |> ignore
+            // The Support page's resources are only sampled while asked for: the
+            // sampler counts the groups on the main thread and reads every process
+            // on the machine on a pool thread, every ten seconds. A report wants an
+            // hour and a day of that; everyday use does not.
+            let mutable resourceSampler : IDisposable option = None
+            let stopResourceSampling() =
+                resourceSampler |> Option.iter(fun sampler -> sampler.Dispose())
+                resourceSampler <- None
+            let startResourceSampling() =
+                if resourceSampler.IsNone then
+                    resourceSampler <- Some(ResourceMonitor.start(fun () ->
+                        let groups = Services.desktop.groups
+                        groups.count,groups.collect(fun group -> group.windows).count))
+            if Services.settings.getValue("resourceHistory") :?> bool then startResourceSampling()
+            lifetime.Own({ new IDisposable with member _.Dispose() = stopResourceSampling() }) |> ignore
+            lifetime.Own(Services.settings.notifyValue "resourceHistory" (fun value ->
+                if unbox value then startResourceSampling() else stopResourceSampling())) |> ignore
             if not trailed.IsEmpty then rememberSoon.Request()
             settleTimer.Tick.Add(fun _ -> this.settleTick())
             if settling.Count>0 then settleTimer.Start()

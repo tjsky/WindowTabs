@@ -114,6 +114,7 @@ module SettingsCatalog =
         { id="app-rules"; page=ProgramSettings; text=Strings.Settings.appRules; binding=Navigation }
         { id="workspaces"; page=LayoutSettings; text=Strings.Settings.workspaces; binding=Navigation }
         { id="diagnostics"; page=DiagnosticsSettings; text=Strings.Settings.diagnostics; binding=Navigation }
+        { id="resource-history"; page=DiagnosticsSettings; text=Strings.Settings.resourceHistory; binding=Toggle("resourceHistory",false,false) }
         { id="settings-location"; page=DiagnosticsSettings; text=Strings.Settings.settingsLocation; binding=Navigation }
         { id="settings-backup"; page=DiagnosticsSettings; text=Strings.Settings.settingsBackup; binding=Navigation }
         { id="settings-reset"; page=DiagnosticsSettings; text=Strings.Settings.settingsReset; binding=Navigation }

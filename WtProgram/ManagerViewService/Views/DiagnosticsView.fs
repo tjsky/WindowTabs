@@ -6,6 +6,14 @@ open System.Text
 open System.Windows.Forms
 open Bemo.Json
 
+/// Whether the Support page keeps its resource history at all: the sampler walks
+/// every process on the machine every ten seconds, so the page asks for it by name,
+/// and says so where the figures would be.
+module ResourceHistorySetting =
+    let enabled() = Services.settings.getValue("resourceHistory") :?> bool
+    let collectingText() =
+        tr (if enabled() then Strings.Diagnostics.collecting else Strings.Diagnostics.collectingOff)
+
 /// The settings file's own actions, from the Support page or the command palette.
 module SettingsFile =
     type Location = Portable | AppData | WorkingDirectory
@@ -144,7 +152,7 @@ type ResourceOverview() as this =
     let describe() =
         this.AccessibleDescription <-
             match ResourceMonitor.history.latest with
-            | None -> tr Strings.Diagnostics.collecting
+            | None -> ResourceHistorySetting.collectingText()
             | Some s ->
                 let memory = parts s |> List.map(fun (caption,_,mb) -> sprintf "%s %.1f MB" (tr caption) mb)
                 let others = figures |> List.map(fun (metric,caption,_) -> tr caption + " " + ResourceFormat.value metric (s.value metric))
@@ -202,7 +210,7 @@ type ResourceOverview() as this =
                 g.FillPath(shade,shape)
             found.Add(bounds,meaning)
         match ResourceMonitor.history.latest with
-        | None -> text (tr Strings.Diagnostics.collecting) rowFont p.description (Rectangle(0,0,width,Dpi.scale rowHeight)) false
+        | None -> text (ResourceHistorySetting.collectingText()) rowFont p.description (Rectangle(0,0,width,Dpi.scale rowHeight)) false
         | Some s ->
             // Private memory: its total, the bar of its parts and a line for each.
             let header = Rectangle(0,0,memoryWidth,Dpi.scale(headerHeight+barHeight))
@@ -291,7 +299,7 @@ type ResourceCharts() as this =
     let describe() =
         this.AccessibleDescription <-
             match ResourceMonitor.history.latest with
-            | None -> tr Strings.Diagnostics.collecting
+            | None -> ResourceHistorySetting.collectingText()
             | Some latest -> tiles |> List.map(fun (metric,caption) -> tr caption + " " + format metric (latest.value metric)) |> String.concat "; "
     do
         this.SetStyle(ControlStyles.AllPaintingInWmPaint ||| ControlStyles.OptimizedDoubleBuffer ||| ControlStyles.UserPaint ||| ControlStyles.ResizeRedraw,true)
@@ -358,7 +366,7 @@ type ResourceCharts() as this =
                     // The range only where the figure moved, as shown.
                     let low,high = format metric (Array.min values),format metric (Array.max values)
                     (if low=high then "" else sprintf "%s – %s" low high),format metric (latest.value metric)
-                | _ -> "",tr Strings.Diagnostics.collecting
+                | _ -> "",ResourceHistorySetting.collectingText()
             let rangeWidth = TextRenderer.MeasureText(g,rangeText,captionFont,Size(Int32.MaxValue,Int32.MaxValue),flags).Width
             TextRenderer.DrawText(g,tr caption,captionFont,Rectangle(tile.X,tile.Y,tile.Width-rangeWidth-Dpi.scale 8,captionHeight),p.description,flags)
             TextRenderer.DrawText(g,rangeText,captionFont,Rectangle(tile.Right-rangeWidth,tile.Y,rangeWidth,captionHeight),p.description,flags)

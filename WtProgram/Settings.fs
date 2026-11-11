@@ -169,6 +169,7 @@ type Settings(isStandAlone, ?saveDelay:int) as this =
                         combineIconsInTaskbar = settingsJson.getBool("combineIconsInTaskbar").def(SettingsCatalog.toggleDefault "combineIconsInTaskbar" hasExistingSettings)
                         replaceAltTab = settingsJson.getBool("replaceAltTab").def(SettingsCatalog.toggleDefault "replaceAltTab" hasExistingSettings)
                         groupWindowsInSwitcher = settingsJson.getBool("groupWindowsInSwitcher").def(SettingsCatalog.toggleDefault "groupWindowsInSwitcher" hasExistingSettings)
+                        resourceHistory = settingsJson.getBool("resourceHistory").def(SettingsCatalog.toggleDefault "resourceHistory" hasExistingSettings)
                         enableCtrlNumberHotKey = settingsJson.getBool("enableCtrlNumberHotKey").def(SettingsCatalog.toggleDefault "enableCtrlNumberHotKey" hasExistingSettings)
                         enableNumberLeader = settingsJson.getBool("enableNumberLeader").def(SettingsCatalog.toggleDefault "enableNumberLeader" hasExistingSettings)
                         appTabColors =
@@ -284,6 +285,7 @@ type Settings(isStandAlone, ?saveDelay:int) as this =
             settingsJson.setBool("combineIconsInTaskbar", settings.combineIconsInTaskbar)
             settingsJson.setBool("replaceAltTab", settings.replaceAltTab)
             settingsJson.setBool("groupWindowsInSwitcher", settings.groupWindowsInSwitcher)
+            settingsJson.setBool("resourceHistory", settings.resourceHistory)
             settingsJson.setString("tabSearchScope", settings.tabSearchScope)
             settingsJson.setBool("enableCtrlNumberHotKey", settings.enableCtrlNumberHotKey)
             settingsJson.setBool("enableNumberLeader", settings.enableNumberLeader)

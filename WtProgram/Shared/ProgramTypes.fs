@@ -49,6 +49,9 @@ type SettingsRec = {
     enableTabbingByDefault: bool
     replaceAltTab: bool
     groupWindowsInSwitcher: bool
+    /// The Support page's resource sampler, off unless a report asks for it: it walks
+    /// every process on the machine every ten seconds.
+    resourceHistory: bool
     enableCtrlNumberHotKey: bool
     enableNumberLeader: bool
     appTabColors: Map<string,string>

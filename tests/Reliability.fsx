@@ -534,6 +534,9 @@ let main() =
         check (isNull cleared.["includedPaths"] && isNull cleared.["excludedPaths"] && isNull cleared.["workspaces"]) "Reset did not clear what was asked"
         check (current.["tabThemeMode"].ToString()="dark") "Reset changed the settings it read"
     check (report.["settings"].["workspaceCount"].Value<int>()=1) "Diagnostic summary missing workspace count"
+    // The sampler reads every process on the machine, so it is asked for by name and off until then.
+    check (SettingsCatalog.toggleDefault "resourceHistory" false=false && SettingsCatalog.toggleDefault "resourceHistory" true=false)
+          "Resource history is not off by default"
     // Most telling first; crashes (none here) would sit before the developer figures at the end.
     let order = ["version";"os";"dotNet";"settings";"otherTools";"environment";"monitors";"groups";"groupedWindows";"uptimeMinutes";"resources";"resourceHistory";"scans"]
     let keys = report.Properties() |> Seq.map(fun property -> property.Name) |> Seq.toList

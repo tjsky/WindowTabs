@@ -592,7 +592,8 @@ module Strings =
         let tabStyles =
             [| { en="Joined"; zh="连贯"; zhHant="相連"; ja="連結"; ar="متصل" }
                { en="Folder"; zh="文件夹"; zhHant="資料夾"; ja="フォルダー型"; ar="مجلد" }
-               { en="Floating"; zh="悬浮"; zhHant="懸浮"; ja="フローティング"; ar="عائم" } |]
+               { en="Floating"; zh="悬浮"; zhHant="懸浮"; ja="フローティング"; ar="عائم" }
+               { en="Classic trapezoid"; zh="经典梯形"; zhHant="傳統梯形"; ja="クラシック（台形）"; ar="كلاسيكي شبه منحرف" } |]
         /// The tab colours on which the text is shown darker or lighter than chosen.
         /// Samples of the tab text as chosen and as shown, side by side.
         let textBefore = { en="Before"; zh="调整前"; zhHant="調整前"; ja="調整前"; ar="قبل" }
@@ -620,7 +621,8 @@ module Strings =
                { en="Amber"; zh="琥珀橙"; zhHant="琥珀橘"; ja="アンバー"; ar="كهرماني" }
                Settings.tabColorNames.[11]
                Settings.tabColorNames.[6]
-               { en="Windows accent"; zh="Windows 强调色"; zhHant="Windows 強調色"; ja="Windows のアクセント"; ar="لون تمييز Windows" } |]
+               { en="Windows accent"; zh="Windows 强调色"; zhHant="Windows 強調色"; ja="Windows のアクセント"; ar="لون تمييز Windows" }
+               { en="Aero"; zh="Aero 蓝"; zhHant="Aero 藍"; ja="Aero ブルー"; ar="أزرق Aero" } |]
         let pickerHelp = { en="Color picker: arrow keys adjust saturation and brightness; Shift + arrow keys adjust hue"
                            zh="颜色选择器：方向键调整饱和度和亮度；Shift + 方向键调整色相"
                            zhHant="顏色選擇器：方向鍵調整飽和度和亮度；Shift + 方向鍵調整色相"

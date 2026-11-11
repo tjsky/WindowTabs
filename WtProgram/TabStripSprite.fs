@@ -424,10 +424,12 @@ type TabSprite<'id> = {
     member private this.floatingSideGap = Dpi.scale (if this.inColumn then 5 else 6)
 
     // Horizontal padding inside the tab. The old bezier edges needed 18px of
-    // run-up on each side; rounded corners need only enough room to breathe.
-    // A floating tab in a row keeps its contents a little in from its shape's edge.
+    // run-up on each side, and the classic trapezoid keeps them; rounded corners
+    // need only enough room to breathe. A floating tab in a row keeps its
+    // contents a little in from its shape's edge.
     member private this.edgeWidth =
-        if this.style=FloatingTabs && not this.inColumn then this.floatingSideGap+Dpi.scale 6
+        if this.style=ClassicTabs then TabMetrics.scaled this.appearance.tabHeight 18
+        elif this.style=FloatingTabs && not this.inColumn then this.floatingSideGap+Dpi.scale 6
         else TabMetrics.scaled this.appearance.tabHeight 10
 
     // Proportional to the tab, the way a browser draws it: Edge measures about
@@ -634,27 +636,57 @@ type TabSprite<'id> = {
     // the clip discards the excess, makes those columns solid.
     member private this.shapePath (l:float32) (t:float32) (rgt:float32) (btm:float32) =
         let path = new GraphicsPath()
-        let r = float32 (min this.cornerRadius (this.size.height / 2))
-        let rl = if this.roundLeft then r else 0.0f
-        let rr = if this.roundRight then r else 0.0f
-        match this.direction with
-        | TabUp ->
-            // Up the left side, across the top, down the right side, and closed
-            // along the bottom. A browser leaves that edge open so the active
-            // tab runs into the page below it, but these tabs are drawn over a
-            // window they are not part of, so an open edge just reads as a box
-            // with a side missing.
-            path.AddLine(l, btm, l, t + rl)
-            if rl > 0.0f then path.AddArc(l, t, rl * 2.0f, rl * 2.0f, 180.0f, 90.0f)
-            path.AddLine(l + rl, t, rgt - rr, t)
-            if rr > 0.0f then path.AddArc(rgt - rr * 2.0f, t, rr * 2.0f, rr * 2.0f, 270.0f, 90.0f)
-            path.AddLine(rgt, t + rr, rgt, btm)
-        | TabDown ->
-            path.AddLine(l, t, l, btm - rl)
-            if rl > 0.0f then path.AddArc(l, btm - rl * 2.0f, rl * 2.0f, rl * 2.0f, 180.0f, -90.0f)
-            path.AddLine(l + rl, btm, rgt - rr, btm)
-            if rr > 0.0f then path.AddArc(rgt - rr * 2.0f, btm - rr * 2.0f, rr * 2.0f, rr * 2.0f, 90.0f, -90.0f)
-            path.AddLine(rgt, btm - rr, rgt, t)
+        if this.style=ClassicTabs then
+            // The classic trapezoid the tabs were before the redesign: each side an
+            // S curve of two beziers, running from the tab's full width at the window
+            // to a narrower top, so a tab can slide under its neighbour and the edge
+            // beneath still shows through.
+            let edge = float32 this.edgeWidth
+            let bezier (fromX:float32) (fromY:float32) (toX:float32) (toY:float32) =
+                let width = toX - fromX
+                let height = toY - fromY
+                let xInc = width / 3.0f
+                let xCurve = xInc / 3.0f
+                let yCurve = height / 3.0f
+                let p1 = PointF(fromX,fromY)
+                let p2 = PointF(fromX+xInc,fromY)
+                let p3 = PointF(fromX+xInc+xCurve,fromY+yCurve)
+                let p4 = PointF(fromX+xInc+2.0f*xCurve,fromY+2.0f*yCurve)
+                let p5 = PointF(fromX+2.0f*xInc,fromY+3.0f*yCurve)
+                let p6 = PointF(toX,toY)
+                path.AddBezier(p1,p2,p3,p4)
+                path.AddBezier(p3,p4,p5,p6)
+            match this.direction with
+            | TabUp ->
+                bezier l btm (l+edge) t
+                path.AddLine(l+edge,t,rgt-edge,t)
+                bezier (rgt-edge) t rgt btm
+            | TabDown ->
+                bezier l t (l+edge) btm
+                path.AddLine(l+edge,btm,rgt-edge,btm)
+                bezier (rgt-edge) btm rgt t
+        else
+            let r = float32 (min this.cornerRadius (this.size.height / 2))
+            let rl = if this.roundLeft then r else 0.0f
+            let rr = if this.roundRight then r else 0.0f
+            match this.direction with
+            | TabUp ->
+                // Up the left side, across the top, down the right side, and closed
+                // along the bottom. A browser leaves that edge open so the active
+                // tab runs into the page below it, but these tabs are drawn over a
+                // window they are not part of, so an open edge just reads as a box
+                // with a side missing.
+                path.AddLine(l, btm, l, t + rl)
+                if rl > 0.0f then path.AddArc(l, t, rl * 2.0f, rl * 2.0f, 180.0f, 90.0f)
+                path.AddLine(l + rl, t, rgt - rr, t)
+                if rr > 0.0f then path.AddArc(rgt - rr * 2.0f, t, rr * 2.0f, rr * 2.0f, 270.0f, 90.0f)
+                path.AddLine(rgt, t + rr, rgt, btm)
+            | TabDown ->
+                path.AddLine(l, t, l, btm - rl)
+                if rl > 0.0f then path.AddArc(l, btm - rl * 2.0f, rl * 2.0f, rl * 2.0f, 180.0f, -90.0f)
+                path.AddLine(l + rl, btm, rgt - rr, btm)
+                if rr > 0.0f then path.AddArc(rgt - rr * 2.0f, btm - rr * 2.0f, rr * 2.0f, rr * 2.0f, 90.0f, -90.0f)
+                path.AddLine(rgt, btm - rr, rgt, t)
         path.CloseFigure()
         path
 
@@ -741,6 +773,14 @@ type TabSprite<'id> = {
             | JoinedTabs ->
                 use background = new SolidBrush(this.fillColor)
                 g.FillPath(background, path)
+            | ClassicTabs ->
+                // Every classic tab carries the border the Aero trapezoid was drawn
+                // with: the slanted edges, not the fill alone, are what tell the tabs
+                // apart where they overlap.
+                use background = new SolidBrush(this.fillColor)
+                g.FillPath(background, path)
+                use pen = new Pen(this.appearance.tabBorderColor, 1.0f)
+                g.DrawPath(pen, path)
             | FolderTabs | FloatingTabs ->
                 use bar = new SolidBrush(if this.isRaised then this.barColor else this.fillColor)
                 g.FillPath(bar, path)
@@ -912,7 +952,12 @@ type TabStripSprite<'id> when 'id : equality = {
             let y = track.y + (track.height-height)*this.scrollOffset/this.scrollMaximum
             Some(Rect(Pt(track.x,y),Sz(track.width,height)))
 
-    member private this.tabOverlap = float(this.appearance.tabOverlap)
+    member private this.tabOverlap =
+        // The classic trapezoid slides under its neighbours as it always did, by
+        // the run its slanted edges were given; the rounded shapes are laid out
+        // flush, their corners unable to overlap.
+        float(if this.appearance.tabStyle=ClassicTabs then TabMetrics.scaled this.appearance.tabHeight 20
+              else this.appearance.tabOverlap)
     /// Tab spacing is stored as a negative overlap; any gap at all parts the tabs.
     member private this.isSpaced = not this.isVertical && this.appearance.tabOverlap < 0
     member private this.tabMaxLen = float(this.appearance.tabMaxWidth)
@@ -959,7 +1004,10 @@ type TabStripSprite<'id> when 'id : equality = {
                 // already set apart by its own fill.
                 match this.placeOf tab with
                 | Some(index) when index > 0 ->
-                    not this.isVertical && not this.isSpaced && this.isPlain(tab) && this.isPlain(this.adjustedLorder.at(index - 1))
+                    // A classic trapezoid has its own border where it meets its
+                    // neighbour, so a hairline between them would only double it.
+                    not this.isVertical && this.appearance.tabStyle<>ClassicTabs && not this.isSpaced &&
+                        this.isPlain(tab) && this.isPlain(this.adjustedLorder.at(index - 1))
                 | _ -> false
             // Spaced tabs stand apart, so each is rounded at both ends like the whole strip.
             roundLeft =

@@ -145,7 +145,7 @@ let main() =
         // Nor may one sink into the dark bar behind it.
         check (inactive |> Array.forall(fun shade -> Theme.OkLab.distance shade Theme.dark.tabNormalBgColor>=0.02)) "An inactive tab colour disappears into the dark bar"
         let presetNames = ThemePresets.names |> Array.map(fun name -> name.en)
-        check (presetNames=[|"Default";"Windows accent";"Blue";"Teal";"Green";"Sand";"Amber";"Rose";"Purple";"Slate"|])
+        check (presetNames=[|"Default";"Windows accent";"Blue";"Teal";"Green";"Sand";"Amber";"Rose";"Purple";"Slate";"Aero"|])
               "Theme presets do not use colour names in the shared colour order"
         // A preset named after a tab colour is a quiet version of the same hue: Rose sat 14° off.
         let hueDegrees (c:Color) = let _,a,b = Theme.OkLab.ofColor c in atan2 b a*180.0/Math.PI

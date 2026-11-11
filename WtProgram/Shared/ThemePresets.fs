@@ -31,11 +31,11 @@ module SystemAccent =
     let chosen() = shade 3 0x0078D4
 
 module ThemePresets =
-    let private order = [|0;9;1;4;2;5;6;7;8;3|]
+    let private order = [|0;9;1;4;2;5;6;7;8;3;10|]
     let names = order |> Array.map(fun index -> Strings.Appearance.presets.[index])
     /// Stable names for storing a preset choice and its edits, whatever the display language.
     let keys =
-        let stored = [|"Default";"Ocean";"Forest";"Slate";"Teal";"Sand";"Amber";"Rose";"Plum";"Accent"|]
+        let stored = [|"Default";"Ocean";"Forest";"Slate";"Teal";"Sand";"Amber";"Rose";"Plum";"Accent";"Aero"|]
         order |> Array.map(fun index -> stored.[index])
     /// Stored as the preset choice when the user's own palette is chosen.
     let customKey = "custom"
@@ -81,7 +81,8 @@ module ThemePresets =
                   make Theme.darkPalette 0xFFF0DC 0x302217 0x493321 0x66492E 0xAB8254
                   make Theme.darkPalette 0xFCE7E8 0x311D21 0x482D32 0x634248 0xA4767E
                   make Theme.darkPalette 0xF1E8FA 0x281E33 0x3D2F4C 0x554267 0x927BA6
-                  accentPalette true|]
+                  accentPalette true
+                  make Theme.darkPalette 0xE8F2FF 0x1C3A5E 0x27507C 0x30598A 0x5C8AC6|]
             else
                 [|Theme.lightPalette
                   make Theme.lightPalette 0x17324D 0xF5FAFF 0xE0ECF7 0xBCD0E3 0x8BA8C2
@@ -92,7 +93,11 @@ module ThemePresets =
                   make Theme.lightPalette 0x50351C 0xFFFAF1 0xFBEACF 0xEED2A9 0xBC9765
                   make Theme.lightPalette 0x522A30 0xFEF8F8 0xF7E1E4 0xE8C3C9 0xB78C94
                   make Theme.lightPalette 0x402B52 0xFCF8FF 0xEEE2F6 0xD8C4E6 0xA28BB4
-                  accentPalette false|]
+                  accentPalette false
+                  // The Aero blue the classic trapezoid was drawn in before the redesign:
+                  // a near-white front tab, pale blue ones behind it, and the saturated
+                  // border around every one.
+                  make Theme.lightPalette 0x000000 0xFAFCFE 0xBDD5F4 0x9FC4F0 0x3A70B1|]
         order |> Array.map(fun index -> stored.[index])
     let private side dark = if dark then "dark:" else "light:"
     /// Beside an edit of the accent preset, the tints it was made on.

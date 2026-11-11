@@ -130,10 +130,13 @@ type GroupTabLayout = {
 /// How the tabs are drawn. Joined: one bar, the active tab told apart by its fill. Folder: the
 /// active tab rises out of the bar like the tab of a paper folder, with curved feet into its
 /// neighbours. Floating: the active and hovered tabs are rounded shapes set into the bar.
+/// Classic: the bezier trapezoid the tabs were before the redesign, each with its own border,
+/// overlapping its neighbours as it always did.
 and TabStyle =
     | JoinedTabs
     | FolderTabs
     | FloatingTabs
+    | ClassicTabs
 
 and TabAppearanceInfo = {
     tabStyle: TabStyle

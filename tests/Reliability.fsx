@@ -604,7 +604,7 @@ let main() =
     let gap = AppearanceJson.readGeometry (JObject.Parse("""{"tabOverlap":-30}""")) Theme.defaultGeometry
     check (gap.overlap= -30 && (AppearanceJson.normalizeGeometry {gap with overlap= -500}).overlap= -100) "Tab gap lost its stored sign or bounds"
     check (Theme.defaultGeometry.style=JoinedTabs) "Tabs no longer join into one bar by default"
-    for style in [JoinedTabs;FolderTabs;FloatingTabs] do
+    for style in [JoinedTabs;FolderTabs;FloatingTabs;ClassicTabs] do
         let stored = AppearanceJson.writeLegacy {Theme.defaultGeometry with style=style} Theme.lightPalette
         check ((AppearanceJson.readGeometry stored Theme.defaultGeometry).style=style) (sprintf "Tab style %A was not kept" style)
     check ((AppearanceJson.readGeometry (JObject.Parse("""{"tabStyle":"zigzag"}""")) {Theme.defaultGeometry with style=FloatingTabs}).style=JoinedTabs)

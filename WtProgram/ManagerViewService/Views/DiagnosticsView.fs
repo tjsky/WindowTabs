@@ -563,11 +563,14 @@ type DiagnosticsView() =
             label.Click.Add(fun _ -> set (not expander.Open))
             set
         // What WindowTabs uses, open at first: at a glance now, then, opened, a chart for each over
-        // the last hour or day. Folded, nothing in it is drawn.
+        // the last hour or day. Folded, nothing in it is drawn. The section heading carries the
+        // sampler's switch, so the off state and its control sit together.
+        let resourceToggle = SettingsBindings.settingToggle "resourceHistory"
+        resourceToggle.AccessibleName <- tr Strings.Settings.resourceHistory.caption
         let resourceParts = ResizeArray<Control>()
         let chartsOpen = ref false
         let chartsCard = new SettingsCard()
-        let showResources = folding (tr Strings.Diagnostics.resourcesTitle) (SettingsUi.sectionFont()) 24 None (fun opened ->
+        let showResources = folding (tr Strings.Diagnostics.resourcesTitle) (SettingsUi.sectionFont()) 24 (Some resourceToggle) (fun opened ->
             for part in resourceParts do part.Visible <- opened
             chartsCard.Visible <- opened && chartsOpen.Value)
         let note = new Label(Text=tr Strings.Diagnostics.resourcesHelp,AutoSize=true,Tag="muted",Margin=Padding(0,0,0,Dpi.scale 12))

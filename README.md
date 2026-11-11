@@ -5,13 +5,22 @@
 Browser-style tabs for your desktop windows. Group windows from any apps and switch
 between them with a click or a shortcut.
 
-[![Downloads](https://img.shields.io/github/downloads/leafoftree/windowtabs/total)](https://github.com/leafOfTree/WindowTabs/releases)
-[![Build](https://github.com/leafOfTree/WindowTabs/actions/workflows/build.yml/badge.svg)](https://github.com/leafOfTree/WindowTabs/actions/workflows/build.yml)
+[![Downloads](https://img.shields.io/github/downloads/tjsky/windowtabs/total)](https://github.com/tjsky/WindowTabs/releases)
+[![Build](https://github.com/tjsky/WindowTabs/actions/workflows/build.yml/badge.svg)](https://github.com/tjsky/WindowTabs/actions/workflows/build.yml)
+
+> [!NOTE]
+> This is [tjsky's fork](https://github.com/tjsky/WindowTabs) of
+> [leafOfTree/WindowTabs](https://github.com/leafOfTree/WindowTabs), which continues
+> [Maurice Flanagan's original](https://github.com/mauricef/WindowTabs). Everything documented
+> below is upstream's work and its authors'; the fork adds the languages and carries
+> [pull request #129](https://github.com/leafOfTree/WindowTabs/pull/129). Report issues and open
+> pull requests here rather than upstream.
 
 > [!IMPORTANT]
-> **v2026.11.05-beta.1 preview**: mouse gestures, a group editor, clearer tab colours, close
-> buttons on the active tab only or never, icons-only groups by default, and tab shortcuts
-> that step aside where they cannot act. [What's changed →](CHANGELOG.md)
+> **v2026.11.11**: English, 简体中文, 繁體中文, 日本語 and العربية, chosen at the bottom left of
+> Settings, and the idle memory and CPU fixes from pull request #129 — tab pictures kept as PNG
+> until a preview needs them, console windows hooked through their conhost, and a chart of what
+> the app uses on Support. [What's changed →](CHANGELOG.md)
 
 <a href="docs/images/light.png"><img src="docs/images/light-rounded.svg" width="600" alt="Light tabs grouping three File Explorer windows" /></a>
 
@@ -20,7 +29,7 @@ between them with a click or a shortcut.
 ## Get started
 
 Download `WindowTabs.exe` from
-[Releases](https://github.com/leafOfTree/WindowTabs/releases) and run it.
+[Releases](https://github.com/tjsky/WindowTabs/releases) and run it.
 It runs in the system tray.
 
 - **Group windows:** drag a tab onto another window's tab bar. Drag it away to ungroup.
@@ -153,7 +162,7 @@ To update, exit WindowTabs from the tray and replace the exe. Settings are kept.
 - **Dropping files on a tab does nothing?** Windows blocks dragging from an app into
   one running as administrator.
 
-Still stuck? [Open an issue](https://github.com/leafOfTree/WindowTabs/issues) and paste
+Still stuck? [Open an issue](https://github.com/tjsky/WindowTabs/issues) and paste
 the troubleshooting report from **Settings → Support**. It leaves out window titles
 and paths.
 
@@ -174,11 +183,15 @@ Win32 interop. To build on Windows 10 or 11:
 Open a new **PowerShell** window in the folder where you want to keep the source:
 
 ```bash
-git clone https://github.com/leafOfTree/WindowTabs
+git clone https://github.com/tjsky/WindowTabs
 cd WindowTabs
 dotnet build WindowTabs.sln                 # Debug: WtProgram\bin\Debug\WindowTabs.exe
 dotnet build WindowTabs.sln -c Release      # Release: WtProgram\bin\Release\WindowTabs.exe (single exe)
 ```
+
+The upstream repository is
+[leafOfTree/WindowTabs](https://github.com/leafOfTree/WindowTabs); `git remote add upstream`
+follows its commits from here.
 
 The first build downloads NuGet dependencies and needs internet access. Run the
 generated exe to start WindowTabs in the system tray; exit it before rebuilding,
@@ -212,16 +225,19 @@ understand and have tested your changes. See [AGENTS.md](AGENTS.md), [architectu
 
 ## Code signing policy
 
-Free code signing provided by [SignPath.io](https://about.signpath.io),
-certificate by [SignPath Foundation](https://signpath.org).
+Upstream's releases are code signed: free signing provided by
+[SignPath.io](https://about.signpath.io), certificate by
+[SignPath Foundation](https://signpath.org), approved by the upstream maintainer
+[@leafOfTree](https://github.com/leafOfTree), with committers and reviewers named in
+upstream's [contributors](https://github.com/leafOfTree/WindowTabs/graphs/contributors).
 
-- Committers and reviewers: [contributors](https://github.com/leafOfTree/WindowTabs/graphs/contributors)
-- Approvers: [@leafOfTree](https://github.com/leafOfTree)
+This fork has no SignPath project of its own, so the `WindowTabs.exe` published here is built
+unsigned by GitHub Actions ([release.yml](.github/workflows/release.yml)) and Windows may ask
+before it runs. If a signed build matters to you, take one from
+[upstream's releases](https://github.com/leafOfTree/WindowTabs/releases).
 
-Release binaries are built from source by GitHub Actions
-([release.yml](.github/workflows/release.yml)), and every signing request is
-approved by a maintainer. AI coding agents assist with development, but all
-changes are reviewed and merged by a human maintainer.
+Release binaries are built from source by GitHub Actions, and AI coding agents assist with
+development, but all changes are reviewed and merged by a human maintainer.
 
 ### Privacy policy
 
@@ -233,4 +249,10 @@ operating it.
 
 Created by Maurice Flanagan in 2009 ([mauricef/WindowTabs](https://github.com/mauricef/WindowTabs)),
 continued by [redgis](https://github.com/redgis/WindowTabs) and
-[payaneco](https://github.com/payaneco/WindowTabs). [MIT license](LICENSE).
+[payaneco](https://github.com/payaneco/WindowTabs), and brought to where it is now by
+[leafOfTree](https://github.com/leafOfTree/WindowTabs), from which this fork is taken.
+
+[MIT license](LICENSE). The copyright notice and permission text are unchanged from upstream,
+as the license asks; the language files and the changes listed in
+[CHANGELOG.md](CHANGELOG.md) are the fork's additions. Thanks to the maintainers above for the
+years of work this builds on.

@@ -43,6 +43,9 @@ type HelperWindow(title:string) =
     override this.WndProc(message:Message byref) = if message.Msg<>0x2E0 then base.WndProc(&message)
 
 let main() =
+    // The queries below are English and the captions they are matched against are read
+    // with `tr`: pin the language rather than follow the machine's.
+    Localization.setPreference "en"
     let issues = ResizeArray<string>()
     let note ok (message:string) = if not ok then issues.Add message
     /// A command that throws is a finding too; where it threw is kept for the log.

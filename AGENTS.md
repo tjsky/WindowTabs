@@ -47,7 +47,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& ./tests/Run-Tests.ps1 
 - `ManagerViewService/`: the Settings window; one view per page under `Views/`.
 - `GroupPlugins/`, `DesktopPlugins/`: per-group and app-wide behaviour.
 - `docs/`: [architecture](docs/architecture.md), [testing](docs/testing.md),
-  [settings](docs/settings-architecture.md), [performance](docs/performance.md).
+  [settings](docs/settings-architecture.md), [performance](docs/performance.md),
+  [localization](docs/localization.md).
   Read architecture.md before touching threading, settings persistence or popups.
 
 ## Rules that are easy to break
@@ -57,7 +58,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& ./tests/Run-Tests.ps1 
   `Shared/Services.fs`. Group threads may `Send` to the main thread, never the other
   way round (except group creation). A new service method needs a line in its adapter.
 - **Text.** Every user-visible string is a `LocalizedText` in `Shared/Strings.fs` with
-  `en`, `zh` and `ja` filled in, shown with `tr`. Never hard-code UI text.
+  `en`, `zh`, `zhHant`, `ja` and `ar` filled in, shown with `tr`. Never hard-code UI text.
+  `zh` is Simplified Chinese and `zhHant` Traditional, translated separately rather than
+  converted. See [docs/localization.md](docs/localization.md) to add a language.
 - **Settings.** Captions, defaults, ranges, choices with their labels (`choiceLabels`) and
   shortcut defaults live in `Shared/SettingsCatalog.fs`; search, editors, the command palette
   and reset all read from there.

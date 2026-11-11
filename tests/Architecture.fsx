@@ -25,6 +25,9 @@ let pump milliseconds =
         Thread.Sleep(5)
 
 let main() =
+    // The captions asserted below are English, and a word a caption already shows is not
+    // repeated under a row in that language only: pin it rather than follow the machine.
+    Localization.setPreference "en"
     let traceDirectory = System.IO.Path.GetTempPath()
     check (isNull(StartupTrace.resolvePath null traceDirectory (fun _ -> false))) "Startup tracing was enabled without an explicit opt-in"
     check (StartupTrace.resolvePath "chosen.jsonl" traceDirectory (fun _ -> true)="chosen.jsonl") "Startup tracing ignored the environment override"
@@ -552,6 +555,25 @@ let main() =
         check (commands |> List.map(fun command -> command.id) |> List.distinct |> List.length = commands.Length) "Command ids must be unique"
         check (commands |> List.forall(fun command -> command.id<>"" && command.id=command.id.ToLowerInvariant() && not (command.id.Contains " "))) "Command ids must be kebab-case"
         check (commands |> List.forall(fun command -> Localization.all command.text.caption |> List.forall(fun text -> text<>""))) "Every command needs a caption in every language"
+        // Every text is written in all five languages or in none of them: a field left empty
+        // shows English in the middle of a translated page. Texts are read off the compiled
+        // module, so one added without its translations is caught here, not by eye.
+        let readTexts () =
+            let flags = Reflection.BindingFlags.Public ||| Reflection.BindingFlags.Static
+            [ for kind in typeof<LocalizedText>.Assembly.GetTypes() do
+                if kind.FullName<>null && kind.FullName.StartsWith "Bemo.Strings" then
+                    for property in kind.GetProperties flags do
+                        if property.PropertyType=typeof<LocalizedText> then
+                            yield property.GetValue(null,null) :?> LocalizedText
+                        elif property.PropertyType=typeof<SettingText> then
+                            let setting = property.GetValue(null,null) :?> SettingText
+                            yield setting.caption; yield setting.description; yield setting.keywords
+                    for field in kind.GetFields flags do
+                        if field.FieldType=typeof<LocalizedText> then yield field.GetValue null :?> LocalizedText ]
+        let written (text:LocalizedText) = Localization.all text |> List.filter ((<>) "")
+        let gaps = readTexts() |> List.filter(fun text -> let values = written text in not values.IsEmpty && values.Length<Localization.languages.Length)
+        check (readTexts().Length>500) (sprintf "The texts of the app were not found to be checked: %d" (readTexts().Length))
+        check gaps.IsEmpty (sprintf "%d texts are missing a translation: %s" gaps.Length (gaps |> List.map(fun text -> text.en) |> List.truncate 5 |> String.concat " | "))
         for item in SettingsCatalog.all do
             match item.binding with
             | Shortcut(key,_) ->

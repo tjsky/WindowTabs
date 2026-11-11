@@ -20,6 +20,8 @@ let rec controls (control:Control) = seq {
     for child in control.Controls do yield! controls child }
 
 let main() =
+    // The captions and control names it looks up are English; pin it rather than follow the machine.
+    Localization.setPreference "en"
     Application.EnableVisualStyles()
     let originalDirectory = Environment.CurrentDirectory
     let isolated = Path.Combine(__SOURCE_DIRECTORY__,"Debug","theme-test-"+Guid.NewGuid().ToString("N"))
@@ -1138,12 +1140,12 @@ let main() =
         choice.Enabled <- true
         api.setValue("tabThemeMode",box "dark")
         Application.DoEvents()
-        let search = controls form |> Seq.choose(function :? TextBox as input when input.AccessibleName="Search settings" -> Some input | _ -> None) |> Seq.head
+        let search = controls form |> Seq.choose(function :? TextBox as input when input.AccessibleName=tr Strings.SettingsWindow.searchSettings -> Some input | _ -> None) |> Seq.head
         form.ActiveControl <- search
         Application.DoEvents()
         search.Text <- "Theme"
         Application.DoEvents()
-        let result = controls form |> Seq.choose(function :? ListBox as b when b.AccessibleName="Search results" -> Some b | _ -> None) |> Seq.head
+        let result = controls form |> Seq.choose(function :? ListBox as b when b.AccessibleName=tr Strings.SettingsWindow.searchResults -> Some b | _ -> None) |> Seq.head
         result.SelectedIndex <- result.Items.IndexOf("Theme")
         // The list sits in a frame that swaps its system scrollbar for the settings one.
         let suggestions = result.Parent.Parent
@@ -1329,10 +1331,10 @@ let main() =
         let sessionNote = controls lazyForm |> Seq.find(fun control -> control :? Label && control.Text=tr Strings.Settings.restoreSession.description)
         let oneLine = TextRenderer.MeasureText("Xg",sessionNote.Font).Height
         check (sessionNote.Height<oneLine*3/2) (sprintf "The session restore description wraps: %d px for a %d px line" sessionNote.Height oneLine)
-        let lazySearch = controls lazyForm |> Seq.choose(function :? TextBox as input when input.AccessibleName="Search settings" -> Some input | _ -> None) |> Seq.head
+        let lazySearch = controls lazyForm |> Seq.choose(function :? TextBox as input when input.AccessibleName=tr Strings.SettingsWindow.searchSettings -> Some input | _ -> None) |> Seq.head
         lazySearch.Text <- "标签高度"
         Application.DoEvents()
-        let lazyResults = controls lazyForm |> Seq.choose(function :? ListBox as list when list.AccessibleName="Search results" -> Some list | _ -> None) |> Seq.head
+        let lazyResults = controls lazyForm |> Seq.choose(function :? ListBox as list when list.AccessibleName=tr Strings.SettingsWindow.searchResults -> Some list | _ -> None) |> Seq.head
         check (lazyResults.Items.Count=1 && appearanceLoads=0) "Search loads pages or fails bilingual matching"
         api.setValue("tabThemeMode",box "dark")
         Application.DoEvents()

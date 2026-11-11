@@ -623,12 +623,23 @@ let main() =
     let fileIcon = Win32Helper.GetFileIcon(unicodeExe)
     check (AppIcons.HasOwnIcon unicodeExe && not (AppIcons.IsGenericIcon fileIcon)) "File icon lost for a non-ASCII path"
     WinUserApi.DestroyIcon(fileIcon) |> ignore
-    for code,expected in ["en","Close";"zh","关闭";"ja","閉じる";"ar","إغلاق"] do
+    for code,expected in ["en","Close";"zh","关闭";"zh-Hant","關閉";"ja","閉じる";"ar","إغلاق"] do
         Localization.setPreference code
         check (Localization.plain Strings.TabMenu.close=expected) ("Language override ignored: "+code)
+        check (SettingsCatalog.normalizeChoice "language" code=code) ("A language offered was not kept by the settings: "+code)
+    // A Windows display language picks the writing system, not just the language: Traditional
+    // Chinese is what zh-TW, zh-HK and zh-MO ask for, Simplified what the mainland asks for.
+    for culture,expected in ["zh-TW","zh-Hant";"zh-HK","zh-Hant";"zh-MO","zh-Hant";"zh-Hant-HK","zh-Hant"
+                             "zh-CN","zh";"zh-SG","zh";"zh","zh";"ja-JP","ja";"ar-SA","ar";"en-GB","en";"fr-FR","en"] do
+        check (Localization.ofCulture(Globalization.CultureInfo culture)=expected)
+              (sprintf "The display language %s did not ask for %s" culture expected)
     // Arabic is shown inside a right-to-left embedding; parsed and saved values stay unmarked.
+    Localization.setPreference "ar"
     check (tr Strings.TabMenu.close="\u202Bإغلاق\u202C") "Arabic text must read right to left"
     check ((Localization.plain Strings.TabMenu.taskbarIconFiles).EndsWith("|*.*")) "File filter must not carry direction marks"
+    // Chinese is written left to right in both its writing systems, so neither is wrapped.
+    Localization.setPreference "zh-Hant"
+    check (tr Strings.TabMenu.close="關閉") "Traditional Chinese must not carry direction marks"
     Localization.setPreference "fr"
     check (tr Strings.TabMenu.close="Close") "Unsupported language must fall back to English"
     Localization.setPreference "system"

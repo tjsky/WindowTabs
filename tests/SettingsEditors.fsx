@@ -73,6 +73,9 @@ let paints (control:Control) what =
 let key (control:Control) k =
     control.GetType().GetMethod("OnKeyDown",BindingFlags.Instance ||| BindingFlags.NonPublic ||| BindingFlags.Public).Invoke(control,[|box(KeyEventArgs(k))|]) |> ignore
 let main() =
+    // The captions and descriptions asserted below are English; pin it rather than
+    // follow the machine's display language.
+    Localization.setPreference "en"
     // Opening the app list again replaces and disposes the one before; apps come with icons.
     do
         use host = new Form(ShowInTaskbar=false)
@@ -143,7 +146,7 @@ let main() =
         assertTrue (SettingsCatalog.searchEvidence "runatstartup" startup = ["runAtStartup"]) "A settings-file key match is not shown"
         assertTrue (SettingsCatalog.searchEvidence "system" startup = [tr startup.text.description]) "A short description match is not shown whole"
         let margin = SettingsCatalog.find "tabIndentNormal"
-        let longDescription = {en="Distance from the window edges. Centered tabs use it only once they fill the row.";zh="";ja="";ar=""}
+        let longDescription = {en="Distance from the window edges. Centered tabs use it only once they fill the row.";zh="";zhHant="";ja="";ar=""}
         let margin = {margin with text={margin.text with description=longDescription}}
         match SettingsCatalog.searchEvidence "row" margin with
         | [part] -> assertTrue (part.StartsWith("…") && part.EndsWith("they fill the row.") && part.Length<longDescription.en.Length)

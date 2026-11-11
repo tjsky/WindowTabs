@@ -145,7 +145,7 @@ module SettingsCatalog =
         | "theme" -> [Strings.Appearance.system;Strings.Appearance.light;Strings.Appearance.dark]
         | "language" ->
             Strings.SettingsWindow.followWindows ::
-                [for _,name,_ in Localization.languages -> { en=name; zh=name; ja=name; ar=name }]
+                [for _,name,_ in Localization.languages -> { en=name; zh=name; zhHant=name; ja=name; ar=name }]
         | "restore-session" -> [Strings.General.sessionOff;Strings.General.sessionWindows;Strings.General.sessionApps]
         | "tab-alignment" -> alignmentLabels false
         | "tab-position" -> [Strings.TabMenu.top;Strings.Common.left;Strings.Common.right]
@@ -239,7 +239,11 @@ module SettingsCatalog =
         ([item.text.caption;item.text.keywords;searchContext item] |> List.collect Localization.all) @ [storageKey item]
         |> List.filter((<>) "")
     let private terms (query:string) = query.Split([|' ';'\t'|],StringSplitOptions.RemoveEmptyEntries)
-    let private contains term text = matchRanges term text |> Array.isEmpty |> not
+    /// Whether a term is in a text, by the same comparison that finds where it is: asking
+    /// IndexOf is much cheaper than building the ranges a highlight needs, and a keystroke
+    /// asks this of every text of every setting in every language.
+    let private contains (term:string) (text:string) =
+        text.IndexOf(term,StringComparison.CurrentCultureIgnoreCase) >= 0
     let private inDescription term item = Localization.all item.text.description |> List.exists (contains term)
     /// Every term in the caption, keywords, page name or settings-file key, in any language, or
     /// in the description.
